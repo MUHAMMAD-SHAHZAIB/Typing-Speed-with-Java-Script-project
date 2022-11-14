@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+        }
+       
+        .main{
+            width:100%;
+            height: 100vh;
+            background: crimson;
+            position: relative;
+        }
+        .sub{
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            text-align: center;
+        }
+        h1{
+            text-transform: capitalize;
+            margin-bottom: 30px;
+            color:darkmagenta;
+            font-size:3rem;
+        }
+        h2{
+       margin-bottom: 20px;
+        }
+        textarea{
+            background: black;
+            color:white;
+            border:10px solid rgb(33, 39, 33);
+            box-shadow:  0 0 10px rgba(0,0,0,1);
+            border-radius:10px;
+            width:100%;
+            height: 20vh;
+        }
+        button{
+            margin-top:20px;
+            width:30%;
+            height:3rem;
+            line-height: 3rem;
+            font-size:1.5rem;
+            font-weight: 500;
+            border-radius:8px;
+            border:none;
+        }
+    </style>
+</head>
+<!--------------------------html body for  typing master------------------------->
+<body>
+    <div class="main">
+        <div class="sub">
+         <h1>typing master</h1>
+         <h2 id="sha" >show output</h2>
+        
+         <textarea id="mywords" cols="100" row="10" palaceholder="write something">
+
+         </textarea>
+          <br>
+         <button id="btn" class="btn-main " >Start</button>
+        </div>
+    </div>
+<!--------------------------java script body for  typing master------------------------->
+    <script>
+        const setOfwords=[
+            "my name is muhammad shahzaib.",
+            "my education is bs computer science in 7th semestet.",
+            "i am also web developer in html css and java script.",
+            "i belong to the ahmad abad karak in pakistan and my all faimly."
+        ]
+       const msg=document.getElementById("sha");
+       const typeWord=document.getElementById("mywords");
+       const btn=document.getElementById("btn");
+       let startTime, endTime;
+
+       //this is plyagame defined
+       const playGame=() =>{
+           let randomNumber=Math.floor(Math.random()*setOfwords.length);//ju array ma text def hua ha os ko randomly show karna ab.
+           msg.innerText=setOfwords[randomNumber];//os randomly text ko msg k ander daldyia ha.
+           let date=new Date();// new data ko show karta ha.
+           startTime=date.getTime(); // ye varible declear kia tu as ma syraf time ko stratTime var ma daldy ga
+           btn.innerText="Done"; // jab hum text area ma kuch write karangy tu start button ke ja done button show hu jaye.
+       }
+
+
+    //this is endGame function() defiend
+    const endGame =() =>{
+        btn.innerText="Start"; // jab hum text ko type kar leyty hn tu button ko start ma chang karna ha.
+        let date=new Date();
+        endTime=date.getTime();
+        const totalTime=((endTime-startTime)/1000);// ye time ko find karta ha k kitny time ma type kia words ko.
+        console.log(totalTime);
+
+        let totalString= typeWord.value; // ye string ko find karta ha k kitny string hn or kisty word type kie hn
+        
+        let wordCount= wordCounter(totalString);  // this calling function wordcounter . wordCounter can be defiend in line 115.
+   
+   
+        let speed= Math.round((wordCount/totalTime)*60);  // speend ko check krny k leyia ye formula use kia ha. means typing speed karna ha.
+        let finalMsg="Your Total Speed is"+speed+"words per minutes"; // speen ko show msg ma show karna ha as leyia as ko msg k innertext ma dalty hn.
+      
+      
+        finalMsg +=compareWords(msg.innerText,totalString);
+
+        msg.innerText=finalMsg;
+   
+    }
+
+    //---------compareWords() function def-------------------
+    const compareWords= ( str1, str2)=>{
+        let word1 = str1.split(" ");   // ye str1  ye msg.innertext ko define kar rha ha, ko msg ma show huta ha.
+        let word2 = str2.split(" ");   // str2 ye totalString ha jo k user type karta ha text ko .
+        let count= 0;
+
+        word1.forEach(function(item,index){
+            if(item==word2[index]) {
+                count++;
+            }
+        })
+
+        let errorWords= (word1.length - count);
+        return(count + "correct out of "+word1.length +"words and the total number of error are "+errorWords+".")
+    }
+           
+
+    //---------------wordCounter() function can be defiend --------------------
+    const wordCounter = (str) =>{
+      let  response= str.split(" ").length;   // as sy length malom huta ha meas k kitny word hn.
+      console.log(response);
+      return response;
+   
+    }
+
+       //this button to add the event.
+       btn.addEventListener("click", function(){ //btn as ak event dalty hn.
+           if(this.innerText=="Start"){  //if condition ha, this yahn per button ko show kar raha ha and .innertext means jo button k andar jo text ha wo agar start k == hua tu.
+             typeWord.disabled=false;//typeword ko disabled ne karna ha means false karo.
+             playGame(); //ye calling function ha as ko oper define kia ha.
+           }
+           else if(this.innerText=="Done"){
+                   typeWord.disabled=true;
+                   endGame();
+           }
+       })
+    </script>
+
+</body>
+</html>
